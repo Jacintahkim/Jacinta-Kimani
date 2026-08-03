@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jacinta Kimani — Data Analyst / BI Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0F1225;
+    --surface: #171B34;
+    --surface-2: #1F244A;
+    --border: #2A2F58;
+    --text: #F5F6FA;
+    --text-muted: #9498B8;
+    --teal: #2DD4BF;
+    --coral: #FF6B4A;
+    --violet: #A78BFA;
+    --amber: #FBBF6D;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif;font-weight:600;letter-spacing:-0.02em;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+
+  a{color:inherit;text-decoration:none;}
+
+  ::selection{background:var(--teal);color:var(--bg);}
+
+  /* -------- NAV -------- */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:22px 6vw;
+    background:rgba(15,18,37,0.75);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.1rem;}
+  .nav-logo span{color:var(--teal);}
+  .nav-links{display:flex;gap:32px;font-family:'JetBrains Mono',monospace;font-size:0.85rem;}
+  .nav-links a{color:var(--text-muted);position:relative;transition:color .2s;}
+  .nav-links a:hover{color:var(--teal);}
+  .nav-links a::before{content:"";}
+  .nav-toggle{display:none;background:none;border:none;color:var(--text);font-size:1.4rem;cursor:pointer;}
+
+  /* -------- HERO -------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;align-items:center;
+    padding:0 6vw;
+    overflow:hidden;
+  }
+  .hero-grid{
+    position:relative;z-index:2;
+    display:grid;grid-template-columns:1.1fr 1fr;gap:40px;
+    width:100%;align-items:center;
+    padding-top:80px;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    color:var(--teal);
+    font-size:0.85rem;
+    margin-bottom:18px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .eyebrow::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--teal);box-shadow:0 0 12px var(--teal);}
+
+  .hero h1{
+    font-size:clamp(2.3rem, 5vw, 4rem);
+    line-height:1.05;
+    margin-bottom:20px;
+  }
+  .hero h1 .accent{color:var(--coral);}
+  .hero p.sub{
+    color:var(--text-muted);
+    font-size:1.1rem;
+    max-width:480px;
+    margin-bottom:34px;
+  }
+  .hero-ctas{display:flex;gap:16px;flex-wrap:wrap;}
+  .btn{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.9rem;
+    padding:14px 26px;
+    border-radius:8px;
+    display:inline-flex;align-items:center;gap:8px;
+    transition:transform .2s, box-shadow .2s;
+  }
+  .btn-primary{background:var(--teal);color:#08221E;font-weight:600;}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(45,212,191,0.35);}
+  .btn-ghost{border:1px solid var(--border);color:var(--text);}
+  .btn-ghost:hover{border-color:var(--teal);color:var(--teal);}
+
+  .hero-visual{
+    position:relative;
+    height:420px;
+  }
+  .terminal{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:12px;
+    height:100%;
+    padding:0;
+    overflow:hidden;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.5);
+  }
+  .terminal-bar{
+    display:flex;align-items:center;gap:8px;
+    padding:14px 18px;
+    border-bottom:1px solid var(--border);
+    background:var(--surface-2);
+  }
+  .dot{width:10px;height:10px;border-radius:50%;}
+  .dot.r{background:#FF6B6B;} .dot.y{background:#FFD166;} .dot.g{background:#06D6A0;}
+  .terminal-title{margin-left:8px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--text-muted);}
+  .terminal-body{padding:20px;font-family:'JetBrains Mono',monospace;font-size:0.85rem;}
+  .terminal-body .line{margin-bottom:10px;color:var(--text-muted);}
+  .terminal-body .prompt{color:var(--teal);}
+  .terminal-body .out{color:var(--text);}
+  #chart-svg{width:100%;height:220px;margin-top:10px;}
+  .blinker{display:inline-block;width:8px;height:16px;background:var(--teal);vertical-align:middle;animation:blink 1s step-end infinite;}
+  @keyframes blink{50%{opacity:0;}}
+
+  /* -------- SECTION GENERIC -------- */
+  section{padding:110px 6vw;position:relative;}
+  .section-head{margin-bottom:56px;max-width:640px;}
+  .section-tag{
+    font-family:'JetBrains Mono',monospace;
+    color:var(--violet);
+    font-size:0.85rem;
+    margin-bottom:14px;
+  }
+  .section-head h2{font-size:clamp(1.8rem,3vw,2.6rem);}
+  .section-head p{color:var(--text-muted);margin-top:14px;}
+
+  /* -------- ABOUT -------- */
+  .about-wrap{display:grid;grid-template-columns:280px 1fr;gap:60px;align-items:start;}
+  .avatar{
+    width:100%;aspect-ratio:1/1;
+    border-radius:16px;
+    background:linear-gradient(135deg, var(--teal), var(--violet));
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Space Grotesk',sans-serif;font-size:3rem;font-weight:700;color:var(--bg);
+  }
+  .about-text p{color:var(--text-muted);margin-bottom:18px;max-width:600px;}
+  .about-text strong{color:var(--text);}
+  .stat-row{display:flex;gap:40px;margin-top:30px;flex-wrap:wrap;}
+  .stat{font-family:'JetBrains Mono',monospace;}
+  .stat .num{font-size:1.8rem;color:var(--teal);font-weight:600;display:block;}
+  .stat .label{color:var(--text-muted);font-size:0.8rem;}
+
+  /* -------- SKILLS -------- */
+  .skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+  .skill-card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:26px;
+  }
+  .skill-card .cat-dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:10px;}
+  .skill-card h3{font-size:1rem;margin-bottom:16px;display:flex;align-items:center;}
+  .chip-row{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.78rem;
+    padding:6px 12px;
+    border-radius:20px;
+    background:var(--surface-2);
+    color:var(--text-muted);
+    border:1px solid var(--border);
+  }
+
+  /* -------- PROJECTS -------- */
+  .project-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:28px;}
+  .project-card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:16px;
+    overflow:hidden;
+    transition:transform .25s, border-color .25s;
+    display:flex;flex-direction:column;
+  }
+  .project-card:hover{transform:translateY(-6px);border-color:var(--teal);}
+  .project-thumb{
+    height:150px;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'JetBrains Mono',monospace;
+    color:rgba(255,255,255,0.85);
+    font-size:0.8rem;
+    position:relative;
+  }
+  .project-thumb.t1{background:linear-gradient(135deg,#2DD4BF,#1a7f73);}
+  .project-thumb.t2{background:linear-gradient(135deg,#FF6B4A,#a83f28);}
+  .project-thumb.t3{background:linear-gradient(135deg,#A78BFA,#5b3fa8);}
+  .project-body{padding:22px;flex:1;display:flex;flex-direction:column;}
+  .project-body h3{font-size:1.15rem;margin-bottom:10px;}
+  .project-body p{color:var(--text-muted);font-size:0.92rem;margin-bottom:16px;flex:1;}
+  .project-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px;}
+  .tag{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--teal);background:rgba(45,212,191,0.1);padding:4px 10px;border-radius:6px;}
+  .project-links{display:flex;gap:16px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;}
+  .project-links a{color:var(--text-muted);border-bottom:1px solid transparent;}
+  .project-links a:hover{color:var(--teal);border-color:var(--teal);}
+
+  .add-project-card{
+    border:1px dashed var(--border);
+    border-radius:16px;
+    display:flex;align-items:center;justify-content:center;
+    min-height:280px;
+    color:var(--text-muted);
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.85rem;
+    text-align:center;padding:20px;
+  }
+
+  /* -------- CONTACT -------- */
+  .contact-wrap{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:60px 6vw;
+    text-align:center;
+  }
+  .contact-wrap h2{font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:18px;}
+  .contact-wrap p{color:var(--text-muted);margin-bottom:32px;}
+  .contact-links{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;}
+
+  footer{
+    text-align:center;padding:40px 6vw;
+    color:var(--text-muted);
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.8rem;
+  }
+
+  @media (max-width: 860px){
+    .nav-links{display:none;}
+    .hero-grid{grid-template-columns:1fr;}
+    .hero-visual{height:340px;order:-1;}
+    .about-wrap{grid-template-columns:1fr;}
+    .avatar{max-width:180px;}
+    .skills-grid{grid-template-columns:1fr;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">jacinta<span>kimani</span>.dev</div>
+  <div class="nav-links">
+    <a href="#about">about</a>
+    <a href="#skills">skills</a>
+    <a href="#projects">projects</a>
+    <a href="#contact">contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="eyebrow">available for data analyst / BI developer roles</div>
+      <h1>Turning enterprise data<br>into <span class="accent">clear decisions.</span></h1>
+      <p class="sub">I'm <strong>Jacinta Kimani</strong>, a Master of Data Science graduate and BI developer who builds dashboards, automates reporting, and finds the signal in messy education, healthcare, and retail data.</p>
+      <div class="hero-ctas">
+        <a href="#projects" class="btn btn-primary">View Projects →</a>
+        <a href="#contact" class="btn btn-ghost">Get In Touch</a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="terminal-title">sales_forecast.ipynb</span>
+        </div>
+        <div class="terminal-body">
+          <div class="line"><span class="prompt">In [1]:</span> <span class="out">SELECT * FROM walmart_sales;</span></div>
+          <div class="line"><span class="prompt">Out[1]:</span> <span class="out">fitting regression on key drivers…</span></div>
+          <svg id="chart-svg" viewBox="0 0 400 220" preserveAspectRatio="none"></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-head">
+    <div class="section-tag mono">$ whoami</div>
+    <h2>About me</h2>
+  </div>
+  <div class="about-wrap">
+    <div class="avatar">JK</div>
+    <div class="about-text">
+      <p>I'm a <strong>Master of Data Science graduate</strong> with hands-on experience optimizing enterprise data systems. As an ICT Business Intelligence Intern, I queried complex relational databases with SQL, automated corporate reporting with SSRS, and built interactive dashboards in Power BI and Tableau — turning education and healthcare data into insights leadership could act on.</p>
+      <p>I'm currently an ICT Intern at <strong>Opex Consulting PLT</strong> (started 29 June 2026), continuing to build on that foundation. I have a strong statistical background and work comfortably in Python and R for exploratory analysis and predictive modeling.</p>
+      <p>Looking for a full-time <strong>Data Analyst / BI Developer</strong> role where I can keep turning messy operational data into dashboards and forecasts people actually use.</p>
+      <div class="stat-row">
+        <div class="stat"><span class="num">15%</span><span class="label">intervention efficiency gain (Concordia)</span></div>
+        <div class="stat"><span class="num">20+ hrs</span><span class="label">saved monthly via report automation</span></div>
+        <div class="stat"><span class="num">1.5K+</span><span class="label">student records audited</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-head">
+    <div class="section-tag mono">$ pip list</div>
+    <h2>Skills & tools</h2>
+    <p>Grouped by how I actually use them day to day.</p>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <h3><span class="cat-dot" style="background:var(--teal)"></span>Databases & Querying</h3>
+      <div class="chip-row">
+        <span class="chip">SQL</span><span class="chip">SSMS</span><span class="chip">ETL Validation</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <h3><span class="cat-dot" style="background:var(--coral)"></span>BI & Enterprise Reporting</h3>
+      <div class="chip-row">
+        <span class="chip">Power BI</span><span class="chip">Tableau</span><span class="chip">SSRS</span>
+        <span class="chip">Excel</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <h3><span class="cat-dot" style="background:var(--violet)"></span>Analysis & Modeling</h3>
+      <div class="chip-row">
+        <span class="chip">Python</span><span class="chip">R</span><span class="chip">SAS</span><span class="chip">Minitab</span>
+        <span class="chip">Pandas</span><span class="chip">NumPy</span><span class="chip">dplyr</span><span class="chip">ggplot2</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-head">
+    <div class="section-tag mono">$ ls ./projects</div>
+    <h2>Featured projects</h2>
+    <p>A mix of academic modeling work and real internship deliverables.</p>
+  </div>
+  <div class="project-grid">
+    <div class="project-card">
+      <div class="project-thumb t2">sales_forecast.ipynb</div>
+      <div class="project-body">
+        <h3>Walmart Sales Forecasting</h3>
+        <p>Built a sales forecasting model on the Walmart retail dataset, analyzing key demand drivers to improve forecast accuracy. Delivered visualizations and a report translating model findings into inventory and marketing recommendations.</p>
+        <div class="project-tags"><span class="tag">Python</span><span class="tag">R</span><span class="tag">Power BI</span><span class="tag">Tableau</span></div>
+        <div class="project-links"><a href="#">GitHub →</a><a href="#">Write-up →</a></div>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-thumb t1">student_bi_dashboards.pbix</div>
+      <div class="project-body">
+        <h3>Student & Financial Compliance Dashboards</h3>
+        <p>As a BI Intern at Concordia College, used SQL and Power BI to analyze student and financial records, improving intervention efficiency by 15%. Audited 1.5K+ student records across Synergetic, SEQTA, and SQL Server, resolving 100+ data inconsistencies.</p>
+        <div class="project-tags"><span class="tag">SQL / SSMS</span><span class="tag">Power BI</span><span class="tag">SSRS</span></div>
+        <div class="project-links"><a href="case-studies.html#dashboards">Case Study →</a></div>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-thumb t3">report_automation.rdl</div>
+      <div class="project-body">
+        <h3>Enrollment & Finance Report Automation</h3>
+        <p>Automated 10+ recurring reports using Microsoft Report Builder (SSRS), saving 20+ hours per month in enrollment and finance operations, and partnered with leadership to design compliance dashboards for data-driven resource allocation.</p>
+        <div class="project-tags"><span class="tag">SSRS</span><span class="tag">SQL</span><span class="tag">Power BI</span></div>
+        <div class="project-links"><a href="case-studies.html#automation">Case Study →</a></div>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-thumb t2">automation_opportunity_log.xlsx</div>
+      <div class="project-body">
+        <h3>Payment Services Automation Opportunity Log</h3>
+        <p>As an ICT Intern at Opex Consulting PLT, mapped current-state payment processing workflows through shadowing sessions and stakeholder workshops, then built a consolidated 12-item Automation Opportunity Log across platforms including CommPay and Oreana PayWay, backed by Confluence-ready process documentation.</p>
+        <div class="project-tags"><span class="tag">Process Mapping</span><span class="tag">Requirements Gathering</span><span class="tag">Confluence</span></div>
+        <div class="project-links"><a href="case-studies.html#opex">Case Study →</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-wrap">
+    <h2>Let's talk data.</h2>
+    <p>Open to data analyst and BI developer roles — reach out any time.</p>
+    <div class="contact-links">
+      <a href="mailto:jkimani698@gmail.com" class="btn btn-primary">Email me →</a>
+      <a href="https://www.linkedin.com/in/jacinta-kimani254/" target="_blank" class="btn btn-ghost">LinkedIn</a>
+      <a href="#" class="btn btn-ghost">GitHub</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Jacinta Kimani · 2026
+</footer>
+
+<script>
+// Draw an animated scatter plot with a fitted regression line in the hero terminal.
+(function(){
+  const svg = document.getElementById('chart-svg');
+  const ns = "http://www.w3.org/2000/svg";
+  const W = 400, H = 220, PAD = 20;
+
+  // deterministic pseudo-random data with a rough linear trend
+  const points = [];
+  let seed = 42;
+  function rand(){ seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }
+  for(let i=0;i<26;i++){
+    const x = PAD + (i/25) * (W - PAD*2);
+    const trend = H - PAD - (i/25) * (H - PAD*2);
+    const noise = (rand()-0.5) * 60;
+    const y = Math.min(H-PAD, Math.max(PAD, trend + noise));
+    points.push([x,y]);
+  }
+
+  const colors = ['#2DD4BF','#FF6B4A','#A78BFA','#FBBF6D'];
+
+  points.forEach((p, i) => {
+    const c = document.createElementNS(ns,'circle');
+    c.setAttribute('cx', p[0]);
+    c.setAttribute('cy', H); // start at bottom for draw-in animation
+    c.setAttribute('r', 3.5);
+    c.setAttribute('fill', colors[i % colors.length]);
+    c.setAttribute('opacity', '0.85');
+    c.style.transition = `cy 0.7s cubic-bezier(.2,.8,.2,1) ${i*18}ms`;
+    svg.appendChild(c);
+    requestAnimationFrame(()=> {
+      requestAnimationFrame(()=> c.setAttribute('cy', p[1]));
+    });
+  });
+
+  // simple linear regression for the trend line
+  const n = points.length;
+  const sumX = points.reduce((a,p)=>a+p[0],0);
+  const sumY = points.reduce((a,p)=>a+p[1],0);
+  const sumXY = points.reduce((a,p)=>a+p[0]*p[1],0);
+  const sumX2 = points.reduce((a,p)=>a+p[0]*p[0],0);
+  const slope = (n*sumXY - sumX*sumY) / (n*sumX2 - sumX*sumX);
+  const intercept = (sumY - slope*sumX) / n;
+
+  const line = document.createElementNS(ns,'line');
+  const x1 = PAD, x2 = W-PAD;
+  line.setAttribute('x1', x1);
+  line.setAttribute('y1', slope*x1+intercept);
+  line.setAttribute('x2', x1); // start collapsed
+  line.setAttribute('y2', slope*x1+intercept);
+  line.setAttribute('stroke', '#F5F6FA');
+  line.setAttribute('stroke-width', '1.5');
+  line.setAttribute('stroke-dasharray', '4 4');
+  line.setAttribute('opacity', '0.6');
+  line.style.transition = 'x2 1s ease-out 0.6s, y2 1s ease-out 0.6s';
+  svg.appendChild(line);
+  requestAnimationFrame(()=> {
+    requestAnimationFrame(()=> {
+      line.setAttribute('x2', x2);
+      line.setAttribute('y2', slope*x2+intercept);
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
